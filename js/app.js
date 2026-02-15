@@ -7,6 +7,8 @@ const App = {
 
   init() {
     Storage.init();
+    this.loadTheme();
+    Timer.restore();
     this.setupEventListeners();
     this.navigate('home');
     this.updateHeaderDate();
@@ -177,6 +179,26 @@ const App = {
         Stats.render(parseInt(btn.dataset.period));
       });
     });
+  },
+
+  // ダークモード
+  toggleDarkMode() {
+    const html = document.documentElement;
+    const isDark = html.getAttribute('data-theme') === 'dark';
+    const newTheme = isDark ? 'light' : 'dark';
+    html.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    document.getElementById('theme-toggle').textContent = isDark ? '🌙' : '☀️';
+  },
+
+  loadTheme() {
+    const saved = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = saved || (prefersDark ? 'dark' : 'light');
+    if (theme === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      document.getElementById('theme-toggle').textContent = '☀️';
+    }
   },
 
   // データエクスポート

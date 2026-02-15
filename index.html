@@ -19,7 +19,10 @@
   <div id="home-screen" class="screen active">
     <header class="app-header">
       <h1>📖 アクティブリーディング</h1>
-      <p class="header-date" id="header-date"></p>
+      <div class="header-actions">
+        <p class="header-date" id="header-date"></p>
+        <button class="theme-toggle" id="theme-toggle" onclick="App.toggleDarkMode()" title="ダークモード切替">🌙</button>
+      </div>
     </header>
     <main class="screen-content">
       <section class="section">
@@ -81,12 +84,14 @@
     <header class="app-header">
       <button class="back-btn" onclick="App.back()">← 戻る</button>
       <div class="header-actions">
+        <button class="icon-btn" id="export-md-btn" title="Markdownエクスポート">📄</button>
         <button class="icon-btn" id="edit-book-btn" title="編集">✏️</button>
         <button class="icon-btn" id="delete-book-btn" title="削除">🗑️</button>
       </div>
     </header>
     <main class="screen-content">
       <div id="book-detail-info" class="book-info"></div>
+      <div id="timer-container"></div>
       <div class="status-changer" id="status-changer"></div>
       <div class="tabs">
         <button class="tab-btn active" data-tab="questions">読む前の問い</button>
@@ -151,8 +156,9 @@
       <section class="section data-management">
         <h2>データ管理</h2>
         <div class="form-actions">
-          <button class="btn btn-secondary" onclick="App.exportData()">エクスポート</button>
-          <button class="btn btn-secondary" onclick="App.importData()">インポート</button>
+          <button class="btn btn-secondary" onclick="App.exportData()">JSONエクスポート</button>
+          <button class="btn btn-secondary" onclick="App.importData()">JSONインポート</button>
+          <button class="btn btn-secondary export-md-btn" onclick="MarkdownExport.downloadAll()">Markdown出力</button>
         </div>
       </section>
     </main>
@@ -256,9 +262,11 @@
   </nav>
 
   <script src="js/storage.js"></script>
+  <script src="js/timer.js"></script>
   <script src="js/notes.js"></script>
   <script src="js/actions.js"></script>
   <script src="js/book.js"></script>
+  <script src="js/markdown.js"></script>
   <script src="js/stats.js"></script>
   <script src="js/app.js"></script>
 </body>

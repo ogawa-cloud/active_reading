@@ -29,6 +29,58 @@
   --nav-height: 64px;
 }
 
+/* === ダークモード === */
+[data-theme="dark"] {
+  --primary: #6BA5E9;
+  --primary-light: #8BBAF0;
+  --primary-dark: #4A90E2;
+  --secondary: #9AE04A;
+  --accent: #F7B84D;
+  --bg: #1A1A2E;
+  --bg-white: #16213E;
+  --text: #E0E0E0;
+  --text-light: #B0B0B0;
+  --text-muted: #888888;
+  --border: #2A2A4A;
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="dark"] .badge-before {
+  background: #3E2723;
+  color: #FFB74D;
+}
+
+[data-theme="dark"] .badge-reading {
+  background: #1A237E;
+  color: #90CAF9;
+}
+
+[data-theme="dark"] .badge-completed {
+  background: #1B5E20;
+  color: #A5D6A7;
+}
+
+[data-theme="dark"] .add-btn:active {
+  background: #1A237E;
+}
+
+[data-theme="dark"] .search-input,
+[data-theme="dark"] .category-select,
+[data-theme="dark"] .action-input,
+[data-theme="dark"] .question-answer,
+[data-theme="dark"] .action-note-input,
+[data-theme="dark"] .form-group input,
+[data-theme="dark"] .form-group select,
+[data-theme="dark"] .form-group textarea {
+  background: #0F3460;
+  color: var(--text);
+}
+
+[data-theme="dark"] .confirm-overlay {
+  background: rgba(0, 0, 0, 0.7);
+}
+
 html {
   font-size: 16px;
   -webkit-text-size-adjust: 100%;
@@ -933,4 +985,77 @@ body {
     transform: translateX(-50%);
     border-radius: 16px 16px 0 0;
   }
+}
+
+/* === 読書タイマー === */
+.timer-widget {
+  background: var(--bg-white);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.timer-display-row {
+  margin-bottom: 12px;
+}
+
+.timer-display {
+  font-size: 2.5rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+  letter-spacing: 2px;
+}
+
+.timer-display.running {
+  color: var(--primary);
+}
+
+.timer-controls {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.timer-btn {
+  flex: 0 !important;
+  padding: 10px 20px;
+  font-size: 0.85rem;
+}
+
+.timer-total {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 8px;
+}
+
+/* === ダークモードトグル === */
+.theme-toggle {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transition);
+}
+
+.theme-toggle:active {
+  background: var(--bg);
+}
+
+/* === Markdownエクスポートボタン === */
+.export-md-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }

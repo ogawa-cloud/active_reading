@@ -205,9 +205,13 @@ const Book = {
       `<button class="status-btn${book.status === s ? ' active' : ''}" onclick="Book.changeStatus('${bookId}', '${s}')">${statusLabels[s]}</button>`
     ).join('');
 
-    // 編集・削除ボタン
+    // ボタン
+    document.getElementById('export-md-btn').onclick = () => MarkdownExport.downloadForBook(bookId);
     document.getElementById('edit-book-btn').onclick = () => Book.showEditForm(bookId);
     document.getElementById('delete-book-btn').onclick = () => Book.handleDelete(bookId);
+
+    // タイマー
+    Timer.renderForBook(bookId);
 
     // タブコンテンツ描画
     Notes.renderQuestions(bookId);

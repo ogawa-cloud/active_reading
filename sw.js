@@ -1,12 +1,14 @@
-const CACHE_NAME = 'active-reading-v1';
+const CACHE_NAME = 'active-reading-v2';
 const ASSETS = [
   './',
   './index.html',
   './css/style.css',
   './js/storage.js',
+  './js/timer.js',
   './js/notes.js',
   './js/actions.js',
   './js/book.js',
+  './js/markdown.js',
   './js/stats.js',
   './js/app.js',
   './icons/icon.svg',
