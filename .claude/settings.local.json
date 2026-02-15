@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(__NEW_LINE_a69467d87808da0a__ echo \"=== navigate calls by searching directly ===\")"
+    ]
+  }
+}

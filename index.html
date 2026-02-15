@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#4A90E2">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="ActiveRead">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/icon.svg">
+  <title>アクティブリーディング</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+</head>
+<body>
+  <!-- ホーム画面 -->
+  <div id="home-screen" class="screen active">
+    <header class="app-header">
+      <h1>📖 アクティブリーディング</h1>
+      <p class="header-date" id="header-date"></p>
+    </header>
+    <main class="screen-content">
+      <section class="section">
+        <div class="section-header">
+          <h2>読書中の本</h2>
+          <button class="link-btn" onclick="App.navigate('book-list')">もっと見る →</button>
+        </div>
+        <div id="home-reading-books" class="card-list"></div>
+        <p id="home-no-reading" class="empty-message" style="display:none;">読書中の本はありません</p>
+      </section>
+      <section class="section">
+        <div class="section-header">
+          <h2>今日の実践</h2>
+        </div>
+        <div id="home-actions" class="action-list"></div>
+        <p id="home-no-actions" class="empty-message" style="display:none;">未完了の実践項目はありません</p>
+      </section>
+      <section class="section stats-summary">
+        <div class="stat-card">
+          <span class="stat-number" id="home-month-count">0</span>
+          <span class="stat-label">今月の読書</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number" id="home-action-rate">0%</span>
+          <span class="stat-label">実践完了率</span>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- 本リスト画面 -->
+  <div id="book-list-screen" class="screen">
+    <header class="app-header">
+      <h1>本リスト</h1>
+    </header>
+    <main class="screen-content">
+      <div class="search-bar">
+        <input type="text" id="book-search" placeholder="タイトル・著者で検索..." class="search-input">
+      </div>
+      <div class="filter-bar">
+        <button class="filter-btn active" data-filter="all">全て</button>
+        <button class="filter-btn" data-filter="before">読む前</button>
+        <button class="filter-btn" data-filter="reading">読書中</button>
+        <button class="filter-btn" data-filter="completed">読了</button>
+      </div>
+      <div class="filter-bar category-filter">
+        <select id="category-filter" class="category-select">
+          <option value="all">全カテゴリー</option>
+        </select>
+      </div>
+      <div id="book-list" class="card-list"></div>
+      <p id="book-list-empty" class="empty-message" style="display:none;">本が登録されていません</p>
+      <button class="fab" onclick="Book.showAddForm()" title="本を追加">+</button>
+    </main>
+  </div>
+
+  <!-- 本の詳細画面 -->
+  <div id="book-detail-screen" class="screen">
+    <header class="app-header">
+      <button class="back-btn" onclick="App.back()">← 戻る</button>
+      <div class="header-actions">
+        <button class="icon-btn" id="edit-book-btn" title="編集">✏️</button>
+        <button class="icon-btn" id="delete-book-btn" title="削除">🗑️</button>
+      </div>
+    </header>
+    <main class="screen-content">
+      <div id="book-detail-info" class="book-info"></div>
+      <div class="status-changer" id="status-changer"></div>
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="questions">読む前の問い</button>
+        <button class="tab-btn" data-tab="chapters">章メモ</button>
+        <button class="tab-btn" data-tab="actions">実践リスト</button>
+      </div>
+      <div id="tab-questions" class="tab-content active"></div>
+      <div id="tab-chapters" class="tab-content">
+        <div id="chapter-list"></div>
+        <button class="add-btn" id="add-chapter-btn">+ 章メモを追加</button>
+      </div>
+      <div id="tab-actions" class="tab-content">
+        <div class="action-add-form">
+          <input type="text" id="new-action-input" placeholder="実践項目を入力..." class="action-input">
+          <button class="add-btn" id="add-action-btn">追加</button>
+        </div>
+        <div id="action-list"></div>
+      </div>
+    </main>
+  </div>
+
+  <!-- 統計画面 -->
+  <div id="stats-screen" class="screen">
+    <header class="app-header">
+      <h1>統計</h1>
+    </header>
+    <main class="screen-content">
+      <div class="stats-overview">
+        <div class="stat-card large">
+          <span class="stat-number" id="stats-total-books">0</span>
+          <span class="stat-label">総読書冊数</span>
+        </div>
+      </div>
+      <section class="section">
+        <div class="section-header">
+          <h2>月別読書数</h2>
+          <div class="period-selector">
+            <button class="period-btn active" data-period="3">3ヶ月</button>
+            <button class="period-btn" data-period="6">6ヶ月</button>
+            <button class="period-btn" data-period="12">12ヶ月</button>
+          </div>
+        </div>
+        <div class="chart-container">
+          <canvas id="monthly-chart"></canvas>
+        </div>
+      </section>
+      <section class="section">
+        <h2>カテゴリー別</h2>
+        <div class="chart-container">
+          <canvas id="category-chart"></canvas>
+        </div>
+      </section>
+      <section class="section">
+        <h2>実践達成率</h2>
+        <div class="progress-container">
+          <div class="progress-bar">
+            <div class="progress-fill" id="action-progress-fill"></div>
+          </div>
+          <span class="progress-text" id="action-progress-text">0%</span>
+        </div>
+      </section>
+      <section class="section data-management">
+        <h2>データ管理</h2>
+        <div class="form-actions">
+          <button class="btn btn-secondary" onclick="App.exportData()">エクスポート</button>
+          <button class="btn btn-secondary" onclick="App.importData()">インポート</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- 本の追加/編集フォーム画面 -->
+  <div id="book-form-screen" class="screen">
+    <header class="app-header">
+      <button class="back-btn" onclick="App.back()">← 戻る</button>
+      <h1 id="book-form-title">本を追加</h1>
+    </header>
+    <main class="screen-content">
+      <form id="book-form" class="form">
+        <input type="hidden" id="book-form-id">
+        <div class="form-group">
+          <label for="book-form-bookTitle">タイトル <span class="required">*</span></label>
+          <input type="text" id="book-form-bookTitle" required placeholder="本のタイトル">
+        </div>
+        <div class="form-group">
+          <label for="book-form-author">著者</label>
+          <input type="text" id="book-form-author" placeholder="著者名">
+        </div>
+        <div class="form-group">
+          <label for="book-form-category">カテゴリー</label>
+          <select id="book-form-category">
+            <option value="">選択してください</option>
+            <option value="ビジネス">ビジネス</option>
+            <option value="自己啓発">自己啓発</option>
+            <option value="健康">健康</option>
+            <option value="科学">科学</option>
+            <option value="心理学">心理学</option>
+            <option value="哲学">哲学</option>
+            <option value="小説">小説</option>
+            <option value="歴史">歴史</option>
+            <option value="技術">技術</option>
+            <option value="その他">その他</option>
+          </select>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" onclick="App.back()">キャンセル</button>
+          <button type="submit" class="btn btn-primary">保存</button>
+        </div>
+      </form>
+    </main>
+  </div>
+
+  <!-- 章メモフォーム画面 -->
+  <div id="chapter-form-screen" class="screen">
+    <header class="app-header">
+      <button class="back-btn" onclick="App.back()">← 戻る</button>
+      <h1 id="chapter-form-title">章メモを追加</h1>
+    </header>
+    <main class="screen-content">
+      <form id="chapter-form" class="form">
+        <input type="hidden" id="chapter-form-id">
+        <input type="hidden" id="chapter-form-bookId">
+        <div class="form-row">
+          <div class="form-group small">
+            <label for="chapter-form-number">章番号</label>
+            <input type="number" id="chapter-form-number" min="1" placeholder="1">
+          </div>
+          <div class="form-group flex-1">
+            <label for="chapter-form-chapterTitle">章タイトル</label>
+            <input type="text" id="chapter-form-chapterTitle" placeholder="章のタイトル">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="chapter-form-important">最も重要なこと <span class="required">*</span></label>
+          <textarea id="chapter-form-important" rows="3" required placeholder="この章で最も重要なポイントは？"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="chapter-form-memory">記憶方法</label>
+          <textarea id="chapter-form-memory" rows="3" placeholder="どう覚える？（視覚化、比喩、既存知識との結びつけ）"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="chapter-form-application">応用方法</label>
+          <textarea id="chapter-form-application" rows="3" placeholder="現実にどう活かす？似た事例は？"></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" onclick="App.back()">キャンセル</button>
+          <button type="submit" class="btn btn-primary">保存</button>
+        </div>
+      </form>
+    </main>
+  </div>
+
+  <!-- 下部ナビゲーション -->
+  <nav class="bottom-nav">
+    <button class="nav-btn active" data-screen="home" onclick="App.navigate('home')">
+      <span class="nav-icon">🏠</span>
+      <span class="nav-label">ホーム</span>
+    </button>
+    <button class="nav-btn" data-screen="book-list" onclick="App.navigate('book-list')">
+      <span class="nav-icon">📚</span>
+      <span class="nav-label">本リスト</span>
+    </button>
+    <button class="nav-btn" data-screen="stats" onclick="App.navigate('stats')">
+      <span class="nav-icon">📊</span>
+      <span class="nav-label">統計</span>
+    </button>
+  </nav>
+
+  <script src="js/storage.js"></script>
+  <script src="js/notes.js"></script>
+  <script src="js/actions.js"></script>
+  <script src="js/book.js"></script>
+  <script src="js/stats.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
