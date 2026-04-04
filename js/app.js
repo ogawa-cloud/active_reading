@@ -12,6 +12,7 @@ const App = {
     this.setupEventListeners();
     this.navigate('home');
     this.updateHeaderDate();
+    Sync.init();
   },
 
   // 画面遷移

@@ -41,7 +41,7 @@ const Storage = {
     const items = this.getAll(key);
     const index = items.findIndex(item => item.id === id);
     if (index === -1) return null;
-    items[index] = { ...items[index], ...updates };
+    items[index] = { ...items[index], ...updates, updatedAt: nowISO() };
     this.save(key, items);
     return items[index];
   },

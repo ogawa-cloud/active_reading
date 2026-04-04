@@ -1,4 +1,4 @@
-const CACHE_NAME = 'active-reading-v2';
+const CACHE_NAME = 'active-reading-v3';
 const ASSETS = [
   './',
   './index.html',
@@ -10,6 +10,7 @@ const ASSETS = [
   './js/book.js',
   './js/markdown.js',
   './js/stats.js',
+  './js/sync.js',
   './js/app.js',
   './icons/icon.svg',
   './manifest.json',

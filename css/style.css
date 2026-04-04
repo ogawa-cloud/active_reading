@@ -1110,3 +1110,155 @@ body {
   justify-content: center;
   gap: 6px;
 }
+
+/* === 同期UI === */
+
+/* ヘッダー右側のボタン群 */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* 同期ボタン */
+.sync-btn {
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transition);
+}
+
+.sync-btn:active {
+  background: var(--bg);
+}
+
+.sync-btn.sync-syncing #sync-icon {
+  display: inline-block;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* 同期設定ボタン（統計画面） */
+.sync-settings-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+/* 設定モーダル */
+.sync-dialog {
+  width: min(480px, 92vw);
+  text-align: left;
+}
+
+.sync-dialog h2 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.sync-help-text {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.sync-pat-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  background: var(--bg);
+  color: var(--text);
+  box-sizing: border-box;
+  margin-top: 6px;
+  font-family: monospace;
+}
+
+.sync-pat-help {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.8rem;
+  color: var(--primary);
+}
+
+.sync-pat-help a {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
+.gist-id-display {
+  display: block;
+  margin-top: 6px;
+  padding: 6px 10px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.78rem;
+  font-family: monospace;
+  word-break: break-all;
+  color: var(--text-muted);
+}
+
+.sync-last-sync {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+/* トースト通知 */
+.sync-toast {
+  position: fixed;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 80px);
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: #333;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 24px;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s, transform 0.25s;
+  z-index: 9999;
+  max-width: 90vw;
+  white-space: normal;
+  text-align: center;
+}
+
+.sync-toast.sync-toast-show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.sync-toast.sync-toast-error {
+  background: var(--danger, #e74c3c);
+}
+
+.sync-toast.sync-toast-warn {
+  background: #f39c12;
+}
+
+[data-theme="dark"] .sync-pat-input {
+  background: var(--bg-white);
+}
+
+[data-theme="dark"] .gist-id-display {
+  background: var(--bg-white);
+}
