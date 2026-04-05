@@ -22,6 +22,7 @@
   --danger-light: #FADBD8;
   --success: #2E7D32;
   --success-light: #E8F5E9;
+  --on-primary: #FFFFFF;
   --shadow: 0 1px 3px rgba(0,0,0,0.05), 0 2px 8px rgba(0,0,0,0.05);
   --shadow-lg: 0 4px 16px rgba(0,0,0,0.10);
   --radius: 14px;
@@ -44,6 +45,7 @@
   --text-light: #AAAAAA;
   --text-muted: #666666;
   --border: #2C2C2C;
+  --on-primary: #111111;
   --shadow: 0 2px 8px rgba(0,0,0,0.4);
   --shadow-lg: 0 4px 20px rgba(0,0,0,0.55);
 }
@@ -432,7 +434,7 @@ body {
 
 .filter-btn.active {
   background: var(--primary);
-  color: white;
+  color: var(--on-primary);
   border-color: var(--primary);
 }
 
@@ -456,7 +458,7 @@ body {
   height: 56px;
   border-radius: 50%;
   background: var(--primary);
-  color: white;
+  color: var(--on-primary);
   border: none;
   font-size: 1.75rem;
   cursor: pointer;
@@ -533,7 +535,7 @@ body {
 .status-btn.active {
   border-color: var(--primary);
   background: var(--primary);
-  color: white;
+  color: var(--on-primary);
 }
 
 /* === タブ（ピルスタイル） === */
@@ -644,7 +646,7 @@ body {
 
 .chapter-number {
   background: var(--primary);
-  color: white;
+  color: var(--on-primary);
   width: 32px;
   height: 32px;
   border-radius: 50%;
@@ -875,7 +877,7 @@ body {
 
 .period-btn.active {
   background: var(--primary);
-  color: white;
+  color: var(--on-primary);
   border-color: var(--primary);
 }
 
@@ -1015,7 +1017,7 @@ body {
 
 .btn-primary {
   background: var(--primary);
-  color: white;
+  color: var(--on-primary);
   flex: 1;
 }
 
@@ -1040,7 +1042,7 @@ body {
 
 .btn-accent {
   background: var(--primary);
-  color: white;
+  color: var(--on-primary);
   border: 1.5px solid transparent;
 }
 
@@ -1220,7 +1222,7 @@ body {
 
 .timer-alert {
   background: var(--primary);
-  color: white;
+  color: var(--on-primary);
   padding: 10px 16px;
   border-radius: var(--radius-sm);
   font-size: 0.85rem;
