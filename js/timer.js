@@ -285,6 +285,19 @@ const Timer = {
     display.classList.toggle('running', this.isRunning);
     display.classList.toggle('break', this.mode === 'pomodoro' && this.pomodoroPhase === 'break');
 
+    // リングの進捗更新
+    const ring = document.getElementById('timer-ring');
+    if (ring) {
+      ring.style.setProperty('--progress', this.ringProgress());
+    }
+
+    // ポモドーロドット更新
+    const dotsEl = document.getElementById('pomo-dots');
+    if (dotsEl) {
+      dotsEl.style.display = this.mode === 'pomodoro' ? 'flex' : 'none';
+      dotsEl.innerHTML = this.pomoDots();
+    }
+
     const startBtn = document.getElementById('timer-start-btn');
     const pomoBtn = document.getElementById('timer-pomo-btn');
     const pauseBtn = document.getElementById('timer-pause-btn');
@@ -309,7 +322,7 @@ const Timer = {
     if (infoEl) {
       if (this.mode === 'pomodoro') {
         const phaseLabel = this.pomodoroPhase === 'work' ? '集中' : '休憩';
-        infoEl.textContent = `${phaseLabel}中 — ${this.pomodoroCount}ポモドーロ完了`;
+        infoEl.textContent = `${phaseLabel}中`;
         infoEl.style.display = 'block';
       } else {
         infoEl.style.display = 'none';
@@ -321,6 +334,26 @@ const Timer = {
     if (totalEl && this.currentBookId) {
       totalEl.textContent = `累計: ${this.formatTimeLabel(this.getTotalTime(this.currentBookId))}`;
     }
+  },
+
+  // リング進捗（0〜100）を計算
+  ringProgress() {
+    if (this.mode === 'pomodoro') {
+      const total = this.pomodoroPhase === 'work'
+        ? this.WORK_MIN * 60
+        : (this.pomodoroCount % 4 === 0 ? this.LONG_BREAK_MIN : this.BREAK_MIN) * 60;
+      return total > 0 ? Math.round((1 - this.pomodoroRemaining / total) * 100) : 0;
+    }
+    // フリーモード: 60分を100%とする
+    return Math.min(100, Math.round(this.elapsed / 3600 * 100));
+  },
+
+  // ポモドーロドットHTML
+  pomoDots() {
+    const filled = this.pomodoroCount % 4;
+    return Array.from({ length: 4 }, (_, i) =>
+      `<span class="pomo-dot${i < filled ? ' filled' : ''}"></span>`
+    ).join('');
   },
 
   // 本の詳細画面にタイマーUIを描画
@@ -340,16 +373,21 @@ const Timer = {
     }
 
     const phaseClass = (this.mode === 'pomodoro' && this.pomodoroPhase === 'break') ? ' break' : '';
+    const progress = isThisBook ? this.ringProgress() : 100;
+    const showPomo = isThisBook && this.mode === 'pomodoro';
 
     container.innerHTML = `
       <div class="timer-widget">
-        <div class="timer-display-row">
+        <div class="timer-ring" id="timer-ring" style="--progress:${progress}">
           <span class="timer-display${this.isRunning && isThisBook ? ' running' : ''}${phaseClass}" id="timer-display">
             ${displayTime}
           </span>
         </div>
-        <div class="timer-pomo-info" id="timer-pomo-info" style="display:${isThisBook && this.mode === 'pomodoro' ? 'block' : 'none'}">
-          ${this.mode === 'pomodoro' ? `${this.pomodoroPhase === 'work' ? '集中' : '休憩'}中 — ${this.pomodoroCount}ポモドーロ完了` : ''}
+        <div class="pomo-dots" id="pomo-dots" style="display:${showPomo ? 'flex' : 'none'}">
+          ${this.pomoDots()}
+        </div>
+        <div class="timer-pomo-info" id="timer-pomo-info" style="display:${showPomo ? 'block' : 'none'}">
+          ${this.mode === 'pomodoro' ? `${this.pomodoroPhase === 'work' ? '集中' : '休憩'}中` : ''}
         </div>
         <div class="timer-controls">
           <button class="btn btn-primary timer-btn" id="timer-start-btn"

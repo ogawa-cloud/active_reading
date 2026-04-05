@@ -161,7 +161,7 @@ const Book = {
     const actionCount = this.getActionCount(book.id);
 
     return `
-      <div class="book-card" onclick="App.navigate('book-detail', '${book.id}')">
+      <div class="book-card" data-status="${book.status}" onclick="App.navigate('book-detail', '${book.id}')">
         <div class="book-card-title">${this.escapeHtml(book.title)}</div>
         ${book.author ? `<div class="book-card-author">${this.escapeHtml(book.author)}</div>` : ''}
         <div class="book-card-meta">
