@@ -43,6 +43,23 @@
         <div id="home-actions" class="action-list"></div>
         <p id="home-no-actions" class="empty-message" style="display:none;">未完了の実践項目はありません</p>
       </section>
+      <!-- 昨日の1問1答アラート -->
+      <div id="home-quiz-alert" class="quiz-alert" style="display:none;">
+        <span class="quiz-alert-icon">🧠</span>
+        <div class="quiz-alert-text">昨日の1問1答 (<span class="quiz-alert-count">0</span>問) に挑戦しましょう！</div>
+        <button class="btn btn-primary btn-sm" onclick="App.navigate('quiz')">開始</button>
+      </div>
+
+      <!-- 今日のif-thenプラン -->
+      <section class="section">
+        <div class="section-header">
+          <h2>📌 今日のif-thenプラン</h2>
+          <button class="link-btn" onclick="App.navigate('journal')">ジャーナルへ →</button>
+        </div>
+        <div id="home-ifthen-list"></div>
+        <p id="home-no-ifthen" class="empty-message" style="display:none;">今日のif-thenプランはまだありません</p>
+      </section>
+
       <section class="section stats-summary">
         <div class="stat-card">
           <span class="stat-number" id="home-month-count">0</span>
@@ -98,10 +115,14 @@
       <div class="status-changer" id="status-changer"></div>
       <div class="tabs">
         <button class="tab-btn active" data-tab="questions">読む前の問い</button>
+        <button class="tab-btn" data-tab="cycles">サイクル</button>
         <button class="tab-btn" data-tab="chapters">章メモ</button>
         <button class="tab-btn" data-tab="actions">実践リスト</button>
       </div>
       <div id="tab-questions" class="tab-content active"></div>
+      <div id="tab-cycles" class="tab-content">
+        <div id="cycle-list"></div>
+      </div>
       <div id="tab-chapters" class="tab-content">
         <div id="chapter-list"></div>
         <button class="add-btn" id="add-chapter-btn">+ 章メモを追加</button>
@@ -249,6 +270,137 @@
     </main>
   </div>
 
+  <!-- ========== 気づき記録画面（サイクル完了後） ========== -->
+  <div id="cycle-insight-screen" class="screen">
+    <header class="app-header">
+      <button class="back-btn" onclick="Cycles.cancelCycle()">← スキップ</button>
+      <h1 id="cycle-insight-title">気づきを記録</h1>
+    </header>
+    <main class="screen-content">
+      <!-- 記録タイマー -->
+      <div class="insight-timer-section">
+        <div id="insight-timer-display" class="insight-timer-display">05:00</div>
+        <p class="insight-timer-label">気づき記録タイマー（3〜5分）</p>
+        <p class="cycle-book-duration" id="cycle-book-duration"></p>
+      </div>
+
+      <!-- 気づき入力 -->
+      <div class="form-group">
+        <label for="cycle-insight-text">💡 気づいたこと・印象に残ったこと</label>
+        <textarea id="cycle-insight-text" rows="4"
+          placeholder="読んでいて気づいたこと、新しい発見、印象に残ったフレーズなどを書いてください..."></textarea>
+      </div>
+
+      <!-- if-thenプラン -->
+      <div class="ifthen-section">
+        <div class="ifthen-section-header">
+          <span class="ifthen-section-icon">📌</span>
+          <h3>if-thenプラン（1つだけ）</h3>
+        </div>
+        <p class="ifthen-hint">実生活で今日〜明日中に実行できる具体的なアクションを決めましょう</p>
+        <div class="ifthen-inputs">
+          <div class="ifthen-input-row">
+            <span class="ifthen-label-badge if-badge">IF</span>
+            <input type="text" id="cycle-if-situation"
+              placeholder="〜の状況になったとき（例: 朝コーヒーを飲む時）">
+          </div>
+          <div class="ifthen-arrow">↓</div>
+          <div class="ifthen-input-row">
+            <span class="ifthen-label-badge then-badge">THEN</span>
+            <input type="text" id="cycle-if-action"
+              placeholder="～をする（例: 今日学んだことを1つ思い出す）">
+          </div>
+        </div>
+        <div class="form-group" style="margin-top:12px;">
+          <label for="cycle-if-place">🗓 実行場所・タイミング（24時間以内）</label>
+          <input type="text" id="cycle-if-place"
+            placeholder="例: 明日の朝9時、駅のホームで待っている間">
+        </div>
+        <div class="form-group">
+          <label for="cycle-planned-date">実行予定日</label>
+          <input type="date" id="cycle-planned-date">
+        </div>
+      </div>
+
+      <!-- X投稿 -->
+      <div class="x-post-section">
+        <div class="x-section-header">
+          <h3>𝕏 Xに投稿する（オプション）</h3>
+          <button class="btn btn-secondary btn-sm" onclick="Cycles.generateXText()">テキスト生成</button>
+        </div>
+        <textarea id="cycle-x-text" rows="4"
+          placeholder="「テキスト生成」ボタンで気づきとif-thenプランから自動生成します..."></textarea>
+        <div class="x-post-controls">
+          <label class="x-posted-label">
+            <input type="checkbox" id="cycle-x-posted"> 投稿済み
+          </label>
+          <button class="btn btn-x" onclick="Cycles.postToX()">𝕏 Xに投稿</button>
+        </div>
+      </div>
+
+      <div class="form-actions form-actions-bottom">
+        <button class="btn btn-secondary" onclick="Cycles.cancelCycle()">スキップ</button>
+        <button class="btn btn-primary" onclick="Cycles.saveCycle()">💾 記録を保存</button>
+      </div>
+    </main>
+  </div>
+
+  <!-- ========== ジャーナリング画面 ========== -->
+  <div id="journal-screen" class="screen">
+    <header class="app-header">
+      <button class="back-btn" onclick="App.back()">← 戻る</button>
+      <h1>📓 ジャーナリング</h1>
+    </header>
+    <main class="screen-content">
+      <p class="journal-date-display" id="journal-date"></p>
+
+      <section class="section">
+        <h2>📖 今日の読書サイクル</h2>
+        <div id="journal-cycles-summary"></div>
+      </section>
+
+      <section class="section">
+        <h2>🌙 実行ログ</h2>
+        <p class="journal-hint">今日実践できたこと・気づいたことをまとめましょう</p>
+        <textarea id="journal-summary" rows="6"
+          placeholder="実行したif-thenプランの結果、気づき、明日への引き継ぎ事項など..."></textarea>
+      </section>
+
+      <section class="section">
+        <div class="section-header">
+          <h2>📝 卉日の1問1答</h2>
+          <button class="btn btn-secondary btn-sm" onclick="Journal.autoGeneratePairs()">自動生成</button>
+        </div>
+        <p class="journal-hint">if-thenプランから「自動生成」するか、手動で問題を作れます</p>
+        <div id="journal-quiz-pairs"></div>
+        <button class="add-btn" onclick="Journal.addPair()">+ 問題を追加</button>
+      </section>
+
+      <div class="form-actions">
+        <button class="btn btn-primary" onclick="Journal.saveJournal()">💾 保存する</button>
+      </div>
+
+      <section class="section" id="journal-quiz-section">
+        <div class="section-header">
+          <h2>🧠 昨日の1問1答</h2>
+        </div>
+        <div id="journal-yesterday-quiz"></div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ========== 1問1答クイズ画面 ========== -->
+  <div id="quiz-screen" class="screen">
+    <header class="app-header">
+      <button class="back-btn" onclick="App.back()">← 戻る</button>
+      <h1>🧠 1問1答</h1>
+    </header>
+    <main class="screen-content quiz-screen-content">
+      <p class="quiz-date-label" id="quiz-date"></p>
+      <div id="quiz-content"></div>
+    </main>
+  </div>
+
   <!-- 下部ナビゲーション -->
   <nav class="bottom-nav">
     <button class="nav-btn active" data-screen="home" onclick="App.navigate('home')">
@@ -258,6 +410,10 @@
     <button class="nav-btn" data-screen="book-list" onclick="App.navigate('book-list')">
       <span class="nav-icon">📚</span>
       <span class="nav-label">本リスト</span>
+    </button>
+    <button class="nav-btn" data-screen="journal" onclick="App.navigate('journal')">
+      <span class="nav-icon">📓</span>
+      <span class="nav-label">ジャーナル</span>
     </button>
     <button class="nav-btn" data-screen="stats" onclick="App.navigate('stats')">
       <span class="nav-icon">📊</span>
@@ -302,6 +458,8 @@
 
   <script src="js/storage.js"></script>
   <script src="js/timer.js"></script>
+  <script src="js/cycles.js"></script>
+  <script src="js/journal.js"></script>
   <script src="js/notes.js"></script>
   <script src="js/actions.js"></script>
   <script src="js/book.js"></script>

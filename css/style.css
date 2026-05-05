@@ -1435,3 +1435,893 @@ body {
 [data-theme="dark"] .gist-id-display {
   background: var(--bg-white);
 }
+
+/* ============================================================
+   新機能スタイル: サイクル・ジャーナル・クイズ
+   ============================================================ */
+
+/* === タイマー：サイクルボタン === */
+.btn-cycle {
+  background: #2E7D32;
+  color: #fff;
+  font-weight: 600;
+}
+.btn-cycle:active { background: #1B5E20; }
+
+.timer-cycle-btns {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.timer-other-btns {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  width: 100%;
+}
+
+.timer-display.cycle-mode {
+  color: #2E7D32;
+}
+
+[data-theme="dark"] .btn-cycle {
+  background: #388E3C;
+}
+
+/* === 気づき記録画面 === */
+.insight-timer-section {
+  text-align: center;
+  padding: 20px 16px 12px;
+  background: var(--bg-white);
+  border-radius: var(--radius);
+  margin-bottom: 16px;
+  box-shadow: var(--shadow);
+}
+
+.insight-timer-display {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--primary);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 2px;
+  transition: color 0.3s;
+}
+
+.insight-timer-display.urgent {
+  color: var(--danger);
+  animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.insight-timer-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.cycle-book-duration {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  margin-top: 6px;
+}
+
+/* === if-thenプランセクション === */
+.ifthen-section {
+  background: var(--bg-white);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow);
+  border-left: 4px solid #2E7D32;
+}
+
+.ifthen-section-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.ifthen-section-header h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+
+.ifthen-section-icon {
+  font-size: 1.2rem;
+}
+
+.ifthen-hint {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.ifthen-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ifthen-input-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ifthen-input-row input {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.ifthen-label-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.if-badge {
+  background: #E3F2FD;
+  color: #1565C0;
+}
+
+.then-badge {
+  background: #E8F5E9;
+  color: #2E7D32;
+}
+
+[data-theme="dark"] .if-badge {
+  background: #1A2A40;
+  color: #90CAF9;
+}
+
+[data-theme="dark"] .then-badge {
+  background: #1A2F1A;
+  color: #A5D6A7;
+}
+
+.ifthen-arrow {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  padding: 2px 0;
+}
+
+/* === X投稿セクション === */
+.x-post-section {
+  background: var(--bg-white);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow);
+}
+
+.x-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.x-section-header h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--text);
+}
+
+#cycle-x-text {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  background: var(--bg);
+  color: var(--text);
+  resize: vertical;
+  margin-bottom: 10px;
+}
+
+.x-post-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.x-posted-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--text-light);
+  cursor: pointer;
+}
+
+.btn-x {
+  background: #000;
+  color: #fff;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.btn-x:active { background: #333; }
+
+[data-theme="dark"] .btn-x {
+  background: #fff;
+  color: #000;
+}
+
+.form-actions-bottom {
+  margin-top: 8px;
+  margin-bottom: 40px;
+}
+
+/* === サイクルカード（本詳細タブ） === */
+.cycle-card {
+  background: var(--bg-white);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow);
+}
+
+.cycle-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.cycle-num {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  background: var(--bg);
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+.cycle-date {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  flex: 1;
+}
+
+.cycle-duration-badge {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #2E7D32;
+  background: #E8F5E9;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+[data-theme="dark"] .cycle-duration-badge {
+  background: #1A2F1A;
+  color: #A5D6A7;
+}
+
+.cycle-insight-preview {
+  font-size: 0.9rem;
+  color: var(--text);
+  line-height: 1.5;
+  margin-bottom: 10px;
+  display: flex;
+  gap: 6px;
+}
+
+.cycle-field-icon {
+  flex-shrink: 0;
+}
+
+/* if-then カード（サイクル内） */
+.cycle-ifthen-card {
+  background: var(--bg);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  margin-top: 8px;
+  border-left: 3px solid #2E7D32;
+}
+
+.cycle-ifthen-card.executed {
+  border-left-color: var(--text-muted);
+  opacity: 0.7;
+}
+
+.ifthen-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.ifthen-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.ifthen-done-badge {
+  font-size: 0.75rem;
+  color: #2E7D32;
+  margin-left: auto;
+}
+
+.ifthen-text {
+  font-size: 0.9rem;
+  color: var(--text);
+  line-height: 1.5;
+  margin-bottom: 6px;
+}
+
+.ifthen-if {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #1565C0;
+  background: #E3F2FD;
+  padding: 1px 5px;
+  border-radius: 3px;
+  margin-right: 3px;
+}
+
+.ifthen-then {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #2E7D32;
+  background: #E8F5E9;
+  padding: 1px 5px;
+  border-radius: 3px;
+  margin-right: 3px;
+}
+
+[data-theme="dark"] .ifthen-if {
+  background: #1A2A40;
+  color: #90CAF9;
+}
+
+[data-theme="dark"] .ifthen-then {
+  background: #1A2F1A;
+  color: #A5D6A7;
+}
+
+.ifthen-place {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.ifthen-planned {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.ifthen-check-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  color: var(--text-light);
+  cursor: pointer;
+}
+
+.ifthen-check-label input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: #2E7D32;
+}
+
+.cycle-x-badge {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 8px;
+}
+
+/* === ホーム画面：クイズアラート === */
+.quiz-alert {
+  background: linear-gradient(135deg, #E8F5E9, #F1F8E9);
+  border: 1.5px solid #A5D6A7;
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+[data-theme="dark"] .quiz-alert {
+  background: #1A2F1A;
+  border-color: #2E7D32;
+}
+
+.quiz-alert-icon {
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+
+.quiz-alert-text {
+  flex: 1;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+/* === ホーム画面：今日のif-thenプラン === */
+.home-ifthen-item {
+  background: var(--bg-white);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  margin-bottom: 8px;
+  box-shadow: var(--shadow);
+  border-left: 3px solid #2E7D32;
+}
+
+.home-ifthen-item.executed {
+  border-left-color: var(--border);
+  opacity: 0.6;
+}
+
+.home-ifthen-content {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.home-ifthen-text {
+  font-size: 0.9rem;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+.home-ifthen-book {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+/* === ジャーナル画面 === */
+.journal-date-display {
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+  padding-top: 4px;
+}
+
+.journal-hint {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+#journal-summary {
+  width: 100%;
+  padding: 12px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  background: var(--bg-white);
+  color: var(--text);
+  resize: vertical;
+  line-height: 1.6;
+}
+
+/* ジャーナル：サイクルサマリー */
+.journal-cycle-item {
+  background: var(--bg-white);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  margin-bottom: 8px;
+  box-shadow: var(--shadow);
+}
+
+.journal-cycle-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.journal-cycle-book {
+  font-size: 0.82rem;
+  color: var(--text-light);
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.journal-cycle-duration {
+  font-size: 0.78rem;
+  color: #2E7D32;
+  font-weight: 600;
+}
+
+.journal-insight {
+  font-size: 0.88rem;
+  color: var(--text);
+  margin-bottom: 6px;
+  line-height: 1.5;
+}
+
+.journal-ifthen-row {
+  margin-top: 6px;
+}
+
+.text-done {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+/* ジャーナル：Q&Aペア */
+.quiz-pair-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 10px;
+  background: var(--bg-white);
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow);
+}
+
+.quiz-pair-num {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  min-width: 24px;
+  padding-top: 10px;
+}
+
+.quiz-pair-inputs {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.quiz-q-input,
+.quiz-a-input {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.88rem;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.quiz-q-input {
+  border-color: #90CAF9;
+}
+
+.quiz-a-input {
+  border-color: #A5D6A7;
+}
+
+[data-theme="dark"] .quiz-q-input { border-color: #1565C0; }
+[data-theme="dark"] .quiz-a-input { border-color: #2E7D32; }
+
+.quiz-pair-del {
+  color: var(--danger);
+  padding: 4px;
+  margin-top: 4px;
+}
+
+.quiz-empty {
+  font-size: 0.85rem;
+  padding: 12px 0;
+}
+
+/* ジャーナル：昨日のクイズセクション */
+.quiz-invitation {
+  font-size: 0.9rem;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+
+/* === クイズ画面 === */
+.quiz-screen-content {
+  padding-top: 8px;
+}
+
+.quiz-date-label {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.quiz-progress-bar-wrap {
+  width: 100%;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  margin-bottom: 8px;
+  overflow: hidden;
+}
+
+.quiz-progress-bar-fill {
+  height: 100%;
+  background: #2E7D32;
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.quiz-progress-label {
+  text-align: center;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+
+.quiz-question-card {
+  background: var(--bg-white);
+  border-radius: var(--radius);
+  padding: 20px 16px;
+  box-shadow: var(--shadow);
+  margin-bottom: 16px;
+}
+
+.quiz-question-text {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.quiz-answer-input {
+  width: 100%;
+  padding: 12px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  background: var(--bg);
+  color: var(--text);
+  resize: vertical;
+  min-height: 80px;
+  margin-bottom: 14px;
+}
+
+.quiz-action-area {
+  text-align: center;
+}
+
+.quiz-reveal-btn {
+  width: 100%;
+  padding: 12px;
+}
+
+.quiz-reveal-area {
+  text-align: left;
+}
+
+.quiz-correct-answer {
+  background: #E8F5E9;
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  font-size: 0.95rem;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+[data-theme="dark"] .quiz-correct-answer {
+  background: #1A2F1A;
+}
+
+.quiz-answer-label {
+  font-weight: 700;
+  color: #2E7D32;
+  margin-right: 6px;
+}
+
+.quiz-judge-prompt {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.quiz-judge-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.quiz-judge-buttons .btn {
+  flex: 1;
+  padding: 12px;
+  font-size: 1rem;
+}
+
+.btn-success {
+  background: #2E7D32;
+  color: #fff;
+}
+
+.btn-success:active { background: #1B5E20; }
+
+/* クイズ完了画面 */
+.quiz-complete {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.quiz-score-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #E8F5E9, #C8E6C9);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  box-shadow: 0 4px 16px rgba(46,125,50,0.15);
+}
+
+[data-theme="dark"] .quiz-score-circle {
+  background: linear-gradient(135deg, #1A2F1A, #2E4A2E);
+}
+
+.quiz-score-num {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #2E7D32;
+}
+
+.quiz-score-label {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.quiz-score-detail {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.quiz-correct {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #2E7D32;
+}
+
+.quiz-wrong {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--danger);
+}
+
+.quiz-complete-msg {
+  font-size: 1rem;
+  color: var(--text);
+  margin-bottom: 20px;
+}
+
+.quiz-complete-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.quiz-review {
+  text-align: left;
+  margin-top: 8px;
+}
+
+.quiz-review h3 {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.quiz-review-item {
+  background: var(--bg-white);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  font-size: 0.85rem;
+  border-left: 3px solid var(--border);
+}
+
+.quiz-review-item.correct {
+  border-left-color: #2E7D32;
+}
+
+.quiz-review-item.wrong {
+  border-left-color: var(--danger);
+}
+
+.quiz-review-q {
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.quiz-review-a {
+  color: #2E7D32;
+  margin-bottom: 2px;
+}
+
+.quiz-review-user {
+  color: var(--text-muted);
+}
+
+.quiz-empty-state {
+  text-align: center;
+  padding: 32px 16px;
+}
+
+.empty-sub {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin: 8px 0 16px;
+}
+
+/* === ジャーナルトースト === */
+.journal-toast {
+  position: fixed;
+  bottom: calc(var(--nav-height) + 16px);
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--primary);
+  color: var(--on-primary);
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 0.88rem;
+  opacity: 0;
+  transition: opacity 0.25s, transform 0.25s;
+  z-index: 9999;
+  white-space: nowrap;
+  box-shadow: var(--shadow-lg);
+}
+
+.journal-toast.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* === ボトムナビ 4ボタン対応 === */
+.bottom-nav {
+  justify-content: space-around;
+}
+
+.bottom-nav .nav-btn {
+  flex: 1;
+  max-width: 80px;
+}
+
+.nav-label {
+  font-size: 0.65rem;
+}
+
+/* === ユーティリティ === */
+.btn-sm {
+  padding: 5px 12px;
+  font-size: 0.8rem;
+}

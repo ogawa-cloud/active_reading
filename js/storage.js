@@ -6,6 +6,8 @@ const Storage = {
     PRE_READING_QUESTIONS: 'preReadingQuestions',
     CHAPTER_NOTES: 'chapterNotes',
     ACTION_ITEMS: 'actionItems',
+    READING_CYCLES: 'readingCycles',
+    JOURNAL_ENTRIES: 'journalEntries',
   },
 
   save(key, data) {
@@ -99,9 +101,4 @@ function formatDate(dateStr) {
 
 function todayISO() {
   const d = new Date();
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-}
-
-function nowISO() {
-  return new Date().toISOString();
-}
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart

@@ -49,9 +49,20 @@ const App = {
         break;
       case 'book-detail':
         if (param) Book.renderDetail(param);
-        // デフォルトで最初のタブをアクティブに
         this.activateTab('questions');
         break;
+      case 'cycle-insight':
+        if (param) Cycles.renderInsightScreen(param);
+        break;
+      case 'journal':
+        Journal.render(todayISO());
+        break;
+      case 'quiz': {
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        Journal.renderQuiz(param || yesterday.toISOString().slice(0, 10));
+        break;
+      }
       case 'stats':
         Stats.render(3);
         break;
@@ -89,6 +100,12 @@ const App = {
 
     // 今日の実践
     Actions.renderHomeActions();
+
+    // 今日のif-thenプラン
+    Cycles.renderHomeTodayPlans();
+
+    // 昨日の1問1答アラート
+    Journal.renderHomeQuizAlert();
 
     // 統計サマリー
     document.getElementById('home-month-count').textContent = Stats.getCurrentMonthCount();
@@ -150,6 +167,16 @@ const App = {
     document.querySelectorAll('.tab-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         this.activateTab(btn.dataset.tab);
+        // タブ別の初期化
+        if (btn.dataset.tab === 'cycles' && this.currentBookId) {
+          Cycles.renderBookCycles(this.currentBookId);
+        } else if (btn.dataset.tab === 'chapters' && this.currentBookId) {
+          Notes.renderChapters(this.currentBookId);
+        } else if (btn.dataset.tab === 'actions' && this.currentBookId) {
+          Actions.renderList(this.currentBookId);
+        } else if (btn.dataset.tab === 'questions' && this.currentBookId) {
+          Notes.renderQuestions(this.currentBookId);
+        }
       });
     });
 
@@ -210,43 +237,4 @@ const App = {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `active-reading-backup-${todayISO()}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-  },
-
-  // データインポート
-  importData() {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = '.json';
-    input.onchange = (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        try {
-          const data = JSON.parse(ev.target.result);
-          this.confirm('現在のデータを上書きしますか？', () => {
-            Storage.importAll(data);
-            this.navigate('home');
-          });
-        } catch {
-          alert('無効なファイルです。');
-        }
-      };
-      reader.readAsText(file);
-    };
-    input.click();
-  },
-};
-
-// Service Worker登録
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./sw.js').catch(() => {});
-}
-
-// アプリ起動
-document.addEventListener('DOMContentLoaded', () => {
-  App.init();
-});
+    a.download = `active-reading-backup-${tod
