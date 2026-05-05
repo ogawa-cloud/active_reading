@@ -432,4 +432,85 @@ const Timer = {
 
   // =========================================================
   // 本の詳細画面にタイマーUIを描画
-  // 
+  // =========================================================
+  renderForBook(bookId) {
+    const container = document.getElementById('timer-container');
+    if (!container) return;
+
+    const totalTime = this.getTotalTime(bookId);
+    const isThisBook = this.currentBookId === bookId;
+    const active = isThisBook && (this.isRunning || this.elapsed > 0 || this.pomodoroRemaining > 0);
+
+    let displayTime = '00:00';
+    if (isThisBook) {
+      displayTime = (this.mode === 'pomodoro' || this.mode === 'cycle')
+        ? this.formatTime(this.pomodoroRemaining)
+        : this.formatTime(this.elapsed);
+    }
+
+    const phaseClass = (this.mode === 'pomodoro' && this.pomodoroPhase === 'break') ? ' break' : '';
+    const cycleClass = (this.mode === 'cycle' && isThisBook) ? ' cycle-mode' : '';
+    const progress = isThisBook ? this.ringProgress() : 0;
+    const showPomo = isThisBook && this.mode === 'pomodoro';
+    const modeLabel = isThisBook && this.mode === 'cycle'
+      ? `📖 ${this.cycleMin}分サイクル`
+      : isThisBook && this.mode === 'pomodoro'
+        ? `${this.pomodoroPhase === 'work' ? '集中' : '休憩'}中`
+        : '';
+
+    container.innerHTML = `
+      <div class="timer-widget">
+        <div class="timer-ring" id="timer-ring" style="--progress:${progress}">
+          <span class="timer-display${this.isRunning && isThisBook ? ' running' : ''}${phaseClass}${cycleClass}" id="timer-display">
+            ${displayTime}
+          </span>
+        </div>
+        <div class="pomo-dots" id="pomo-dots" style="display:${showPomo ? 'flex' : 'none'}">
+          ${this.pomoDots()}
+        </div>
+        <div class="timer-pomo-info" id="timer-pomo-info" style="display:${modeLabel ? 'block' : 'none'}">
+          ${modeLabel}
+        </div>
+        <div class="timer-controls">
+          <div class="timer-cycle-btns" style="display:${active ? 'none' : 'flex'}">
+            <button class="btn btn-cycle timer-btn" id="timer-cycle10-btn"
+              onclick="Timer.requestNotification(); Timer.startCycle('${bookId}', 10)">
+              📖 10分
+            </button>
+            <button class="btn btn-cycle timer-btn" id="timer-cycle15-btn"
+              onclick="Timer.requestNotification(); Timer.startCycle('${bookId}', 15)">
+              📖 15分
+            </button>
+          </div>
+          <div class="timer-other-btns" style="display:${active ? 'none' : 'flex'}">
+            <button class="btn btn-secondary timer-btn" id="timer-start-btn"
+              onclick="Timer.start('${bookId}')">
+              フリー
+            </button>
+            <button class="btn btn-accent timer-btn" id="timer-pomo-btn"
+              onclick="Timer.requestNotification(); Timer.startPomodoro('${bookId}')">
+              🍅 25分
+            </button>
+          </div>
+          <button class="btn btn-secondary timer-btn" id="timer-pause-btn"
+            style="display:${active ? 'inline-flex' : 'none'}"
+            onclick="${this.isRunning && isThisBook ? 'Timer.pause()' : 'Timer.resume()'}">
+            ${this.isRunning && isThisBook ? '一時停止' : '再開'}
+          </button>
+          <button class="btn btn-secondary timer-btn" id="timer-stop-btn"
+            style="display:${active ? 'inline-flex' : 'none'}"
+            onclick="Timer.stop()">
+            終了
+          </button>
+        </div>
+        <div class="timer-total" id="timer-total">累計: ${this.formatTimeLabel(totalTime)}</div>
+      </div>
+    `;
+  },
+
+  requestNotification() {
+    if ('Notification' in window && Notification.permission === 'default') {
+      Notification.requestPermission();
+    }
+  },
+};

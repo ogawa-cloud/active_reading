@@ -237,4 +237,43 @@ const App = {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `active-reading-backup-${tod
+    a.download = `active-reading-backup-${todayISO()}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  },
+
+  // データインポート
+  importData() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.json';
+    input.onchange = (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        try {
+          const data = JSON.parse(ev.target.result);
+          this.confirm('現在のデータを上書きしますか？', () => {
+            Storage.importAll(data);
+            this.navigate('home');
+          });
+        } catch {
+          alert('無効なファイルです。');
+        }
+      };
+      reader.readAsText(file);
+    };
+    input.click();
+  },
+};
+
+// Service Worker登録
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js').catch(() => {});
+}
+
+// アプリ起動
+document.addEventListener('DOMContentLoaded', () => {
+  App.init();
+});
