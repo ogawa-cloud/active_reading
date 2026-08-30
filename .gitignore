@@ -1,0 +1,10 @@
+node_modules/
+dist/
+dev-dist/
+playwright-report/
+test-results/
+test-artifacts/
+coverage/
+.vite/
+*.tsbuildinfo
+legacy-v1-local-*/
