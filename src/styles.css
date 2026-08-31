@@ -54,6 +54,7 @@ html {
   min-width: 320px;
   background: var(--bg);
   scroll-behavior: smooth;
+  overflow-x: clip;
 }
 
 body {
@@ -61,6 +62,7 @@ body {
   min-width: 320px;
   min-height: 100vh;
   min-height: 100dvh;
+  overflow-x: clip;
   background:
     radial-gradient(circle at 92% -12%, var(--bg-accent), transparent 32rem),
     var(--bg);
@@ -772,13 +774,18 @@ summary:focus-visible {
 .sticky-save {
   position: fixed;
   z-index: 25;
-  right: 0;
+  inset-inline: 0;
   bottom: 0;
-  left: 0;
-  padding: 10px max(14px, calc((100vw - 692px) / 2)) max(10px, env(safe-area-inset-bottom));
+  padding: 10px max(14px, calc((100vw - 692px) / 2)) calc(10px + env(safe-area-inset-bottom, 0px));
   border-top: 1px solid var(--border);
   background: color-mix(in srgb, var(--bg) 91%, transparent);
+  -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  isolation: isolate;
 }
 
 .source-detail-header {
