@@ -42,7 +42,9 @@ export function SourceDetailPage() {
         </section>
       )}
 
-      <Link className="button button--primary button--large button--full" to={`/capture/${source.id}`}>この資料を記録する</Link>
+      <Link className="button button--primary button--large button--full" to={`/capture/${source.id}`}>
+        {data.notes.length > 0 ? '＋ 次の章を記録' : 'この資料を記録する'}
+      </Link>
 
       <section className="section-block">
         <div className="section-heading"><h2>メモ</h2><span className="muted">{data.notes.length}件</span></div>

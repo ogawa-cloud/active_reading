@@ -64,3 +64,24 @@ test('オフラインでも起動し、資料とメモを保存できる', async
   await expect(page.getByText('通信がなくても記録できる。')).toBeVisible()
   await context.setOffline(false)
 })
+
+test('同じ資料に複数の章メモを追加できる', async ({ page }) => {
+  await page.goto('')
+  await page.getByRole('link', { name: '最初の資料を登録' }).click()
+  await page.getByLabel(/タイトル/).fill('章ごとに記録する本')
+  await page.getByRole('button', { name: '登録して記録へ' }).click()
+
+  await page.getByLabel(/章・見出し・範囲/).fill('第1章')
+  await page.getByLabel(/自分の言葉で説明/).fill('最初の章で理解したこと。')
+  await page.getByRole('button', { name: 'メモを保存' }).click()
+
+  await expect(page.getByRole('link', { name: '＋ 次の章を記録' })).toBeVisible()
+  await page.getByRole('link', { name: '＋ 次の章を記録' }).click()
+  await page.getByLabel(/章・見出し・範囲/).fill('第2章')
+  await page.getByLabel(/自分の言葉で説明/).fill('次の章で理解したこと。')
+  await page.getByRole('button', { name: 'メモを保存' }).click()
+
+  await expect(page.getByText('2件')).toBeVisible()
+  await expect(page.getByRole('heading', { name: '第1章' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: '第2章' })).toBeVisible()
+})
